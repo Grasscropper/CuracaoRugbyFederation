@@ -17,10 +17,9 @@
 
 <!-- Hero -->
 <section class="relative min-h-[85vh] bg-crf-blue text-white">
-	<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/images/hero-bg.jpg')"></div>
+	<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/img/logo2.jpg')"></div>
 	<div class="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col items-center justify-center px-4 text-center">
-		<img src="/crf-logo.png" alt="CRF Logo" class="mb-8 h-32 w-32 object-contain"
-			onerror={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+		<img src="/img/logo.jpg" alt="CRF Logo" class="mb-8 h-32 w-32 rounded-full object-cover shadow-xl" />
 		<h1 class="mb-4 text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">{m.hero_title()}</h1>
 		<p class="mb-2 text-xl font-semibold text-yellow-300 sm:text-2xl">{m.hero_subtitle()}</p>
 		<p class="mb-10 max-w-2xl text-lg text-white/80">{m.hero_body()}</p>
@@ -74,7 +73,7 @@
 				</a>
 			</div>
 			<div class="overflow-hidden rounded-2xl bg-gray-100">
-				<img src="/images/team.jpg" alt="Curaçao Rugby team" class="h-80 w-full object-cover" />
+				<img src="/img/article_15y_anniversary.jpg" alt="Curaçao Rugby Federation 15th Anniversary" class="h-80 w-full object-cover" />
 			</div>
 		</div>
 	</div>

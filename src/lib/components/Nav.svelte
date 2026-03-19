@@ -23,10 +23,9 @@
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-3">
 				<img
-					src="/crf-logo.png"
+					src="/img/logo.jpg"
 					alt="CRF Logo"
-					class="h-10 w-10 object-contain"
-					onerror={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+					class="h-10 w-10 rounded-full object-cover"
 				/>
 				<div>
 					<span class="block text-lg font-bold leading-tight">Curaçao</span>
