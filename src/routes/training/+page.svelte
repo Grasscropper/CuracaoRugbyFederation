@@ -8,9 +8,11 @@
 		{ id: '2', day_of_week: 'Thursday', start_time: '17:30', end_time: '19:30', location: 'Saliña Terrain, Willemstad', category: 'Senior Men & Women', notes: null },
 		{ id: '3', day_of_week: 'Saturday', start_time: '08:00', end_time: '10:00', location: 'Saliña Terrain, Willemstad', category: 'Youth & Minis', notes: 'Ages 6–16, parents welcome to watch' }
 	];
-	const sessions = data.sessions?.length ? data.sessions : fallbackSessions;
 	const dayOrder = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-	const sorted = [...sessions].sort((a, b) => dayOrder.indexOf(a.day_of_week) - dayOrder.indexOf(b.day_of_week));
+	const sorted = $derived(
+		[...(data.sessions?.length ? data.sessions : fallbackSessions)]
+			.sort((a, b) => dayOrder.indexOf(a.day_of_week) - dayOrder.indexOf(b.day_of_week))
+	);
 </script>
 
 <svelte:head><title>{m.training_page_title()} – Curaçao Rugby Federation</title></svelte:head>

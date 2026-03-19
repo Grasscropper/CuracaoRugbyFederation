@@ -21,9 +21,12 @@ const originalHandle: Handle = async ({ event, resolve }) => {
 	});
 
 	event.locals.getSession = async () => {
-		const { data: { session } } = await event.locals.supabase.auth.getSession();
-
-		return session;
+		try {
+			const { data: { session } } = await event.locals.supabase.auth.getSession();
+			return session;
+		} catch {
+			return null;
+		}
 	};
 
 	return resolve(event, {
