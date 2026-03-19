@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--color-crf-blue: #003087;
+	--color-crf-gold: #ffd700;
+	--color-crf-red: #c8102e;
+}
