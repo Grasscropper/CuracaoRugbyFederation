@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { locales, localizeHref, getLocale } from '$lib/paraglide/runtime';
+	import * as m from '$lib/paraglide/messages';
 
 	let menuOpen = $state(false);
 
-	const navLinks = [
-		{ href: '/', label: 'Home' },
-		{ href: '/about', label: 'Our Story' },
-		{ href: '/training', label: 'Training' },
-		{ href: '/events', label: 'Events' },
-		{ href: '/news', label: 'News' },
-		{ href: '/join', label: 'Join Us' }
-	];
+	const navLinks = $derived([
+		{ href: '/', label: m.nav_home() },
+		{ href: '/about', label: m.nav_about() },
+		{ href: '/training', label: m.nav_training() },
+		{ href: '/events', label: m.nav_events() },
+		{ href: '/news', label: m.nav_news() },
+		{ href: '/join', label: m.nav_join() }
+	]);
+
+	const localeLabels: Record<string, string> = { en: 'EN', nl: 'NL', pap: 'PAP' };
 </script>
 
 <nav class="bg-crf-blue text-white shadow-lg">
@@ -18,7 +22,12 @@
 		<div class="flex h-16 items-center justify-between">
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-3">
-				<img src="/crf-logo.png" alt="CRF Logo" class="h-10 w-10 object-contain" onerror={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+				<img
+					src="/crf-logo.png"
+					alt="CRF Logo"
+					class="h-10 w-10 object-contain"
+					onerror={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+				/>
 				<div>
 					<span class="block text-lg font-bold leading-tight">Curaçao</span>
 					<span class="block text-sm font-medium leading-tight text-yellow-300">Rugby Federation</span>
@@ -36,22 +45,48 @@
 						{link.label}
 					</a>
 				{/each}
+
+				<!-- Language switcher -->
+				<div class="ml-3 flex items-center gap-1 border-l border-white/30 pl-3">
+					{#each locales as locale}
+						<a
+							href={localizeHref(page.url.pathname, { locale })}
+							class="rounded px-2 py-1 text-xs font-bold transition-colors hover:bg-white/10
+								{getLocale() === locale ? 'bg-white/20 text-yellow-300' : 'text-white/70'}"
+						>
+							{localeLabels[locale] ?? locale.toUpperCase()}
+						</a>
+					{/each}
+				</div>
 			</div>
 
-			<!-- Mobile menu button -->
-			<button
-				class="rounded-md p-2 hover:bg-white/10 md:hidden"
-				onclick={() => (menuOpen = !menuOpen)}
-				aria-label="Toggle menu"
-			>
-				<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					{#if menuOpen}
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-					{:else}
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-					{/if}
-				</svg>
-			</button>
+			<!-- Mobile: language + hamburger -->
+			<div class="flex items-center gap-2 md:hidden">
+				<div class="flex gap-1">
+					{#each locales as locale}
+						<a
+							href={localizeHref(page.url.pathname, { locale })}
+							class="rounded px-1.5 py-1 text-xs font-bold transition-colors hover:bg-white/10
+								{getLocale() === locale ? 'text-yellow-300' : 'text-white/70'}"
+						>
+							{localeLabels[locale] ?? locale.toUpperCase()}
+						</a>
+					{/each}
+				</div>
+				<button
+					class="rounded-md p-2 hover:bg-white/10"
+					onclick={() => (menuOpen = !menuOpen)}
+					aria-label="Toggle menu"
+				>
+					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						{#if menuOpen}
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						{:else}
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+						{/if}
+					</svg>
+				</button>
+			</div>
 		</div>
 	</div>
 
