@@ -17,9 +17,19 @@ export const actions: Actions = {
 
 		if (!title || !date) return fail(400, { error: 'Title and date are required.' });
 
+		const translations: Record<string, Record<string, string>> = {};
+		for (const lang of ['nl', 'pap']) {
+			const langTitle = form.get(`${lang}_title`)?.toString().trim();
+			const langDesc = form.get(`${lang}_description`)?.toString().trim();
+			const entry: Record<string, string> = {};
+			if (langTitle) entry.title = langTitle;
+			if (langDesc) entry.description = langDesc;
+			if (Object.keys(entry).length) translations[lang] = entry;
+		}
+
 		const { error: err } = await locals.supabase
 			.from('events')
-			.update({ title, date, location, description })
+			.update({ title, date, location, description, translations })
 			.eq('id', params.id);
 
 		if (err) return fail(500, { error: err.message });

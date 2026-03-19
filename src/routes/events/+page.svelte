@@ -1,7 +1,10 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
+	import { getLocale } from '$lib/paraglide/runtime';
+	import { t } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+	const locale = getLocale();
 	function formatDate(d: string) {
 		return new Date(d).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 	}
@@ -29,11 +32,11 @@
 		<div class="space-y-6">
 			{#each data.events as event}
 				<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-					{#if event.image_url}<img src={event.image_url} alt={event.title} class="mb-4 h-48 w-full rounded-xl object-cover" />{/if}
+					{#if event.image_url}<img src={event.image_url} alt={t(event, locale, 'title')} class="mb-4 h-48 w-full rounded-xl object-cover" />{/if}
 					<span class="text-sm font-semibold text-crf-red">{formatDate(event.date)}</span>
-					<h2 class="mt-1 text-xl font-bold text-gray-900">{event.title}</h2>
+					<h2 class="mt-1 text-xl font-bold text-gray-900">{t(event, locale, 'title')}</h2>
 					{#if event.location}<p class="mt-1 text-sm text-gray-500">📍 {event.location}</p>{/if}
-					{#if event.description}<p class="mt-3 text-gray-600">{event.description}</p>{/if}
+					{#if t(event, locale, 'description')}<p class="mt-3 text-gray-600">{t(event, locale, 'description')}</p>{/if}
 				</div>
 			{/each}
 		</div>

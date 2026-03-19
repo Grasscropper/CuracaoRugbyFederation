@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import LangTabs from '$lib/components/LangTabs.svelte';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
+	let lang = $state<'en' | 'nl' | 'pap'>('en');
 
-	function toDateTimeLocal(iso: string) {
-		return iso ? iso.slice(0, 16) : '';
-	}
+	function toDateTimeLocal(iso: string) { return iso ? iso.slice(0, 16) : ''; }
+	const tr = (l: string, field: string) => data.event.translations?.[l]?.[field] ?? '';
 </script>
 
 <svelte:head><title>Edit Event – CRF Admin</title></svelte:head>
@@ -21,10 +22,7 @@
 		<div class="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{form.error}</div>
 	{/if}
 	<form method="POST" use:enhance={() => { submitting = true; return async ({ update }) => { submitting = false; await update(); }; }} class="space-y-5">
-		<div>
-			<label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
-			<input id="title" name="title" type="text" required value={data.event.title} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
-		</div>
+
 		<div>
 			<label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date *</label>
 			<input id="date" name="date" type="datetime-local" required value={toDateTimeLocal(data.event.date)} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
@@ -33,10 +31,45 @@
 			<label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
 			<input id="location" name="location" type="text" value={data.event.location ?? ''} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
 		</div>
-		<div>
-			<label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-			<textarea id="description" name="description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{data.event.description ?? ''}</textarea>
+
+		<div class="rounded-xl border border-gray-200 p-4">
+			<p class="mb-3 text-sm font-medium text-gray-700">Translatable Content</p>
+			<LangTabs bind:value={lang} />
+
+			<div class:hidden={lang !== 'en'} class="space-y-4">
+				<div>
+					<label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title (EN) *</label>
+					<input id="title" name="title" type="text" required value={data.event.title} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+				</div>
+				<div>
+					<label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description (EN)</label>
+					<textarea id="description" name="description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{data.event.description ?? ''}</textarea>
+				</div>
+			</div>
+
+			<div class:hidden={lang !== 'nl'} class="space-y-4">
+				<div>
+					<label for="nl_title" class="block text-sm font-medium text-gray-700 mb-1">Titel (NL)</label>
+					<input id="nl_title" name="nl_title" type="text" value={tr('nl','title')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+				</div>
+				<div>
+					<label for="nl_description" class="block text-sm font-medium text-gray-700 mb-1">Beschrijving (NL)</label>
+					<textarea id="nl_description" name="nl_description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{tr('nl','description')}</textarea>
+				</div>
+			</div>
+
+			<div class:hidden={lang !== 'pap'} class="space-y-4">
+				<div>
+					<label for="pap_title" class="block text-sm font-medium text-gray-700 mb-1">Título (PAP)</label>
+					<input id="pap_title" name="pap_title" type="text" value={tr('pap','title')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+				</div>
+				<div>
+					<label for="pap_description" class="block text-sm font-medium text-gray-700 mb-1">Deskripshon (PAP)</label>
+					<textarea id="pap_description" name="pap_description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{tr('pap','description')}</textarea>
+				</div>
+			</div>
 		</div>
+
 		<button type="submit" disabled={submitting} class="rounded-full bg-crf-blue px-8 py-3 font-bold text-white hover:bg-crf-red transition disabled:opacity-50">
 			{submitting ? 'Saving...' : 'Save Changes'}
 		</button>

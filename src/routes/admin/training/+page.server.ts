@@ -26,9 +26,19 @@ export const actions: Actions = {
 			return fail(400, { error: 'All fields except notes are required.' });
 		}
 
+		const translations: Record<string, Record<string, string>> = {};
+		for (const lang of ['nl', 'pap']) {
+			const langCategory = form.get(`${lang}_category`)?.toString().trim();
+			const langNotes = form.get(`${lang}_notes`)?.toString().trim();
+			const entry: Record<string, string> = {};
+			if (langCategory) entry.category = langCategory;
+			if (langNotes) entry.notes = langNotes;
+			if (Object.keys(entry).length) translations[lang] = entry;
+		}
+
 		const { error } = await locals.supabase
 			.from('training_sessions')
-			.insert({ day_of_week, start_time, end_time, location, category, notes });
+			.insert({ day_of_week, start_time, end_time, location, category, notes, translations });
 
 		if (error) return fail(500, { error: error.message });
 		return { success: true };

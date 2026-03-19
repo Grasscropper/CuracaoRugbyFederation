@@ -6,7 +6,8 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import type { Handle } from '@sveltejs/kit';
 
 const originalHandle: Handle = async ({ event, resolve }) => {
-	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	event.locals.supabase = createServerClient<any>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
 		cookies: {
 			getAll() {
 				return event.cookies.getAll();

@@ -1,7 +1,10 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
+	import { getLocale } from '$lib/paraglide/runtime';
+	import { t } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+	const locale = getLocale();
 	function formatDate(d: string) {
 		return new Date(d).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 	}
@@ -22,7 +25,7 @@
 <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
 	<div class="mb-10 rounded-2xl bg-gray-50 p-6 text-center">
 		<p class="mb-4 text-gray-600">{m.news_social_body()}</p>
-		<div class="flex justify-center gap-4 flex-wrap">
+		<div class="flex flex-wrap justify-center gap-4">
 			<a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 rounded-full bg-[#1877f2] px-5 py-2 text-sm font-semibold text-white hover:opacity-90 transition">
 				<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
 				@curacaorugbyfederation
@@ -48,11 +51,11 @@
 		<div class="grid gap-8 md:grid-cols-2">
 			{#each data.posts as post}
 				<article class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-					{#if post.image_url}<img src={post.image_url} alt={post.title} class="h-48 w-full object-cover" />{/if}
+					{#if post.image_url}<img src={post.image_url} alt={t(post, locale, 'title')} class="h-48 w-full object-cover" />{/if}
 					<div class="p-6">
 						<time class="text-sm text-gray-400">{formatDate(post.published_at)}</time>
-						<h2 class="mt-1 text-lg font-bold text-gray-900">{post.title}</h2>
-						<p class="mt-2 line-clamp-3 text-gray-600">{post.content}</p>
+						<h2 class="mt-1 text-lg font-bold text-gray-900">{t(post, locale, 'title')}</h2>
+						<p class="mt-2 line-clamp-3 text-gray-600">{t(post, locale, 'content')}</p>
 					</div>
 				</article>
 			{/each}

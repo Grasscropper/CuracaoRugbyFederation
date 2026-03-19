@@ -1,11 +1,11 @@
 import type { SupabaseClient, Session } from '@supabase/supabase-js';
-import type { Database } from '$lib/database.types';
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
 declare global {
 	namespace App {
 		interface Locals {
-			supabase: SupabaseClient<Database>;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			supabase: SupabaseClient<any>;
 			getSession(): Promise<Session | null>;
 		}
 		interface PageData {

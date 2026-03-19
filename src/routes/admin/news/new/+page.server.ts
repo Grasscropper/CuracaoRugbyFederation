@@ -12,7 +12,17 @@ export const actions: Actions = {
 
 		if (!title || !content) return fail(400, { error: 'Title and content are required.' });
 
-		const { error } = await locals.supabase.from('news').insert({ title, content, published_at });
+		const translations: Record<string, Record<string, string>> = {};
+		for (const lang of ['nl', 'pap']) {
+			const langTitle = form.get(`${lang}_title`)?.toString().trim();
+			const langContent = form.get(`${lang}_content`)?.toString().trim();
+			const entry: Record<string, string> = {};
+			if (langTitle) entry.title = langTitle;
+			if (langContent) entry.content = langContent;
+			if (Object.keys(entry).length) translations[lang] = entry;
+		}
+
+		const { error } = await locals.supabase.from('news').insert({ title, content, published_at, translations });
 		if (error) return fail(500, { error: error.message });
 		redirect(303, '/admin/news');
 	}

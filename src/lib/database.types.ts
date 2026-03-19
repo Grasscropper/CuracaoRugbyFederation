@@ -11,6 +11,7 @@ export interface Database {
 					date: string;
 					location: string | null;
 					image_url: string | null;
+					translations: Record<string, Record<string, string>>;
 					created_at: string;
 					updated_at: string;
 				};
@@ -24,6 +25,7 @@ export interface Database {
 					content: string;
 					image_url: string | null;
 					published_at: string;
+					translations: Record<string, Record<string, string>>;
 					created_at: string;
 					updated_at: string;
 				};
@@ -39,6 +41,7 @@ export interface Database {
 					location: string;
 					category: string;
 					notes: string | null;
+					translations: Record<string, Record<string, string>>;
 					created_at: string;
 					updated_at: string;
 				};

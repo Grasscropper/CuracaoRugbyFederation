@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import LangTabs from '$lib/components/LangTabs.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
 	let showForm = $state(false);
+	let lang = $state<'en' | 'nl' | 'pap'>('en');
 
 	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 </script>
@@ -33,10 +35,6 @@
 					</select>
 				</div>
 				<div>
-					<label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-					<input id="category" name="category" type="text" required placeholder="e.g. Senior Men & Women" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
-				</div>
-				<div>
 					<label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
 					<input id="start_time" name="start_time" type="time" required class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
 				</div>
@@ -44,14 +42,48 @@
 					<label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
 					<input id="end_time" name="end_time" type="time" required class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
 				</div>
+				<div>
+					<label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location *</label>
+					<input id="location" name="location" type="text" required placeholder="e.g. Saliña Terrain, Willemstad" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+				</div>
 			</div>
-			<div>
-				<label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location *</label>
-				<input id="location" name="location" type="text" required placeholder="e.g. Saliña Terrain, Willemstad" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
-			</div>
-			<div>
-				<label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-				<input id="notes" name="notes" type="text" placeholder="Optional notes" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+
+			<div class="rounded-xl border border-gray-200 p-4">
+				<p class="mb-3 text-sm font-medium text-gray-700">Translatable Content</p>
+				<LangTabs bind:value={lang} />
+
+				<div class:hidden={lang !== 'en'} class="space-y-3">
+					<div>
+						<label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category (EN) *</label>
+						<input id="category" name="category" type="text" required placeholder="e.g. Senior Men & Women" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+					<div>
+						<label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (EN)</label>
+						<input id="notes" name="notes" type="text" placeholder="Optional notes" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+				</div>
+
+				<div class:hidden={lang !== 'nl'} class="space-y-3">
+					<div>
+						<label for="nl_category" class="block text-sm font-medium text-gray-700 mb-1">Categorie (NL)</label>
+						<input id="nl_category" name="nl_category" type="text" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+					<div>
+						<label for="nl_notes" class="block text-sm font-medium text-gray-700 mb-1">Notities (NL)</label>
+						<input id="nl_notes" name="nl_notes" type="text" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+				</div>
+
+				<div class:hidden={lang !== 'pap'} class="space-y-3">
+					<div>
+						<label for="pap_category" class="block text-sm font-medium text-gray-700 mb-1">Kategoria (PAP)</label>
+						<input id="pap_category" name="pap_category" type="text" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+					<div>
+						<label for="pap_notes" class="block text-sm font-medium text-gray-700 mb-1">Notanan (PAP)</label>
+						<input id="pap_notes" name="pap_notes" type="text" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm" />
+					</div>
+				</div>
 			</div>
 			<button type="submit" disabled={submitting} class="rounded-full bg-crf-blue px-6 py-2.5 text-sm font-bold text-white hover:bg-crf-red transition disabled:opacity-50">
 				{submitting ? 'Saving...' : 'Save Session'}
