@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { locales, localizeHref, getLocale } from '$lib/paraglide/runtime';
+	import { locales, localizeHref, getLocale, deLocalizeUrl } from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages';
 
 	let menuOpen = $state(false);
@@ -19,6 +19,8 @@
 	const currentLocale = $derived(
 		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
 	);
+
+	const currentPath = $derived(deLocalizeUrl(page.url).pathname);
 </script>
 
 <nav class="bg-crf-blue text-white shadow-lg">
@@ -43,7 +45,7 @@
 					<a
 						href={link.href}
 						class="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-white/10
-							{page.url.pathname === link.href ? 'bg-white/20 text-yellow-300' : ''}"
+							{currentPath === link.href ? 'bg-white/20 text-yellow-300' : ''}"
 					>
 						{link.label}
 					</a>
@@ -101,7 +103,7 @@
 					<a
 						href={link.href}
 						class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-white/10
-							{page.url.pathname === link.href ? 'bg-white/20 text-yellow-300' : ''}"
+							{currentPath === link.href ? 'bg-white/20 text-yellow-300' : ''}"
 						onclick={() => (menuOpen = false)}
 					>
 						{link.label}
