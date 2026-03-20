@@ -34,7 +34,7 @@
 	<div class="mb-6 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{form.error}</div>
 {/if}
 
-<form method="POST" use:enhance={() => { submitting = true; return async ({ update }) => { submitting = false; await update(); }; }} class="space-y-8">
+<form method="POST" use:enhance={() => { submitting = true; return async ({ update }) => { submitting = false; await update({ reset: false }); }; }} class="space-y-8">
 
 	<div class="sticky top-16 z-10 flex items-center justify-between rounded-xl bg-white px-6 py-3 shadow-sm border border-gray-200">
 		<LangTabs bind:value={lang} />
