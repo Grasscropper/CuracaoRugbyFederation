@@ -4,7 +4,7 @@
 	import { t } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
-	const locale = getLocale();
+	const locale = $derived(getLocale());
 	function formatDate(d: string) {
 		return new Date(d).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 	}

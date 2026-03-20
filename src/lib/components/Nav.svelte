@@ -27,7 +27,7 @@
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
 			<!-- Logo -->
-			<a href="/" class="flex items-center gap-3">
+			<a href={localizeHref('/', { locale: currentLocale })} class="flex items-center gap-3">
 				<img
 					src="/img/logo.jpg"
 					alt="CRF Logo"
@@ -43,7 +43,7 @@
 			<div class="hidden items-center gap-1 md:flex">
 				{#each navLinks as link}
 					<a
-						href={link.href}
+						href={localizeHref(link.href, { locale: currentLocale })}
 						class="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-white/10
 							{currentPath === link.href ? 'bg-white/20 text-yellow-300' : ''}"
 					>
@@ -55,7 +55,7 @@
 				<div class="ml-3 flex items-center gap-1 border-l border-white/30 pl-3">
 					{#each locales as locale}
 						<a
-							href={localizeHref(page.url.pathname, { locale })}
+							href={localizeHref(currentPath, { locale })}
 							class="rounded px-2 py-1 text-xs font-bold transition-colors hover:bg-white/10
 								{currentLocale === locale ? 'bg-white/20 text-yellow-300' : 'text-white/70'}"
 						>
@@ -70,7 +70,7 @@
 				<div class="flex gap-1">
 					{#each locales as locale}
 						<a
-							href={localizeHref(page.url.pathname, { locale })}
+							href={localizeHref(currentPath, { locale })}
 							class="rounded px-1.5 py-1 text-xs font-bold transition-colors hover:bg-white/10
 								{currentLocale === locale ? 'text-yellow-300' : 'text-white/70'}"
 						>
@@ -101,7 +101,7 @@
 			<div class="space-y-1 px-4 py-2">
 				{#each navLinks as link}
 					<a
-						href={link.href}
+						href={localizeHref(link.href, { locale: currentLocale })}
 						class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-white/10
 							{currentPath === link.href ? 'bg-white/20 text-yellow-300' : ''}"
 						onclick={() => (menuOpen = false)}

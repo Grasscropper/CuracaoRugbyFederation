@@ -15,7 +15,7 @@
 		[...(data.sessions?.length ? data.sessions : fallbackSessions)]
 			.sort((a, b) => dayOrder.indexOf(a.day_of_week) - dayOrder.indexOf(b.day_of_week))
 	);
-	const locale = getLocale();
+	const locale = $derived(getLocale());
 </script>
 
 <svelte:head><title>{m.training_page_title()} – Curaçao Rugby Federation</title></svelte:head>
