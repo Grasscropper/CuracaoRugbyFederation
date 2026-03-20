@@ -23,7 +23,7 @@
 	const currentPath = $derived(deLocalizeUrl(page.url).pathname);
 </script>
 
-<nav class="bg-crf-blue text-white shadow-lg">
+<nav class="sticky top-0 z-50 bg-crf-blue text-white shadow-lg">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
 			<!-- Logo -->
