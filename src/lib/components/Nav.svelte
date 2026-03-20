@@ -16,9 +16,10 @@
 
 	const localeLabels: Record<string, string> = { en: 'EN', nl: 'NL', pap: 'PAP' };
 
-	const currentLocale = $derived(
-		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
-	);
+	const currentLocale = $derived.by(() => {
+		void page.url.pathname; // track as reactive dependency so this re-runs on navigation
+		return getLocale();
+	});
 </script>
 
 <nav class="bg-crf-blue text-white shadow-lg">
