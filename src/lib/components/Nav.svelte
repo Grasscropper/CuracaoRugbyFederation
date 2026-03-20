@@ -15,6 +15,10 @@
 	]);
 
 	const localeLabels: Record<string, string> = { en: 'EN', nl: 'NL', pap: 'PAP' };
+
+	const currentLocale = $derived(
+		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
+	);
 </script>
 
 <nav class="bg-crf-blue text-white shadow-lg">
@@ -51,7 +55,7 @@
 						<a
 							href={localizeHref(page.url.pathname, { locale })}
 							class="rounded px-2 py-1 text-xs font-bold transition-colors hover:bg-white/10
-								{getLocale() === locale ? 'bg-white/20 text-yellow-300' : 'text-white/70'}"
+								{currentLocale === locale ? 'bg-white/20 text-yellow-300' : 'text-white/70'}"
 						>
 							{localeLabels[locale] ?? locale.toUpperCase()}
 						</a>
@@ -66,7 +70,7 @@
 						<a
 							href={localizeHref(page.url.pathname, { locale })}
 							class="rounded px-1.5 py-1 text-xs font-bold transition-colors hover:bg-white/10
-								{getLocale() === locale ? 'text-yellow-300' : 'text-white/70'}"
+								{currentLocale === locale ? 'text-yellow-300' : 'text-white/70'}"
 						>
 							{localeLabels[locale] ?? locale.toUpperCase()}
 						</a>
