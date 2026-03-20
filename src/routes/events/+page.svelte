@@ -1,10 +1,13 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
-	import { getLocale } from '$lib/paraglide/runtime';
+	import { page } from '$app/state';
+	import { locales } from '$lib/paraglide/runtime';
 	import { t } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
-	const locale = $derived(getLocale());
+	const locale = $derived(
+		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
+	);
 	function formatDate(d: string) {
 		return new Date(d).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 	}

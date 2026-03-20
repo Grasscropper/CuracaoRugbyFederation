@@ -1,9 +1,13 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
-	import { getLocale } from '$lib/paraglide/runtime';
+	import { page } from '$app/state';
+	import { locales } from '$lib/paraglide/runtime';
 	import { t } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+	const locale = $derived(
+		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
+	);
 
 	const fallbackSessions = [
 		{ id: '1', day_of_week: 'Tuesday', start_time: '17:30', end_time: '19:30', location: 'Saliña Terrain, Willemstad', category: 'Senior Men & Women', notes: 'All levels welcome', translations: {} },
@@ -15,7 +19,6 @@
 		[...(data.sessions?.length ? data.sessions : fallbackSessions)]
 			.sort((a, b) => dayOrder.indexOf(a.day_of_week) - dayOrder.indexOf(b.day_of_week))
 	);
-	const locale = $derived(getLocale());
 </script>
 
 <svelte:head><title>{m.training_page_title()} – Curaçao Rugby Federation</title></svelte:head>
