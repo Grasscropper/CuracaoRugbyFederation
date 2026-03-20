@@ -3,14 +3,12 @@
 	import { page } from '$app/state';
 	import { locales } from '$lib/paraglide/runtime';
 	import { t } from '$lib/i18n';
+	import { formatDate } from '$lib/format';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
 	const locale = $derived(
 		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
 	);
-	function formatDate(d: string) {
-		return new Date(d).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-	}
 	const SOCIAL = {
 		facebook: 'https://www.facebook.com/curacaorugbyfederation',
 		instagram: 'https://www.instagram.com/curacaorugbyfederation',

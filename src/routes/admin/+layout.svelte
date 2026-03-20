@@ -6,6 +6,7 @@
 
 	const navLinks = [
 		{ href: '/admin', label: 'Dashboard' },
+		{ href: '/admin/content', label: 'Page Content' },
 		{ href: '/admin/events', label: 'Events' },
 		{ href: '/admin/news', label: 'News' },
 		{ href: '/admin/training', label: 'Training' },

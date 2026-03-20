@@ -104,10 +104,13 @@
 					<p class="text-sm text-gray-500">{session.start_time} – {session.end_time} · {session.location}</p>
 					{#if session.notes}<p class="text-xs text-gray-400 italic">{session.notes}</p>{/if}
 				</div>
-				<form method="POST" action="?/delete" use:enhance>
-					<input type="hidden" name="id" value={session.id} />
-					<button type="submit" onclick={(e) => { if (!confirm('Delete this session?')) e.preventDefault(); }} class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 transition">Delete</button>
-				</form>
+				<div class="flex items-center gap-2">
+					<a href="/admin/training/{session.id}/edit" class="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition">Edit</a>
+					<form method="POST" action="?/delete" use:enhance>
+						<input type="hidden" name="id" value={session.id} />
+						<button type="submit" onclick={(e) => { if (!confirm('Delete this session?')) e.preventDefault(); }} class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 transition">Delete</button>
+					</form>
+				</div>
 			</div>
 		{/each}
 	</div>

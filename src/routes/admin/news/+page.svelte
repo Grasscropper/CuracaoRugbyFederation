@@ -2,9 +2,7 @@
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	let { data }: { data: PageData } = $props();
-	function formatDate(d: string) {
-		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-	}
+	import { formatDate } from '$lib/format';
 </script>
 
 <svelte:head><title>News – CRF Admin</title></svelte:head>

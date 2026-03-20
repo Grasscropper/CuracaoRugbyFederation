@@ -1,7 +1,16 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
+	import { page } from '$app/state';
+	import { locales } from '$lib/paraglide/runtime';
+	import { tc } from '$lib/i18n';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+
+	const locale = $derived(
+		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
+	);
+
+	const c = $derived((key: string, fallback: string) => tc(data.content, key, locale, fallback));
 
 	const SOCIAL = {
 		facebook: 'https://www.facebook.com/curacaorugbyfederation',
@@ -20,9 +29,9 @@
 	<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/img/logo2.jpg')"></div>
 	<div class="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col items-center justify-center px-4 text-center">
 		<img src="/img/logo.jpg" alt="CRF Logo" class="mb-8 h-32 w-32 rounded-full object-cover shadow-xl" />
-		<h1 class="mb-4 text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">{m.hero_title()}</h1>
-		<p class="mb-2 text-xl font-semibold text-yellow-300 sm:text-2xl">{m.hero_subtitle()}</p>
-		<p class="mb-10 max-w-2xl text-lg text-white/80">{m.hero_body()}</p>
+		<h1 class="mb-4 text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">{c('home_hero_title', m.hero_title())}</h1>
+		<p class="mb-2 text-xl font-semibold text-yellow-300 sm:text-2xl">{c('home_hero_subtitle', m.hero_subtitle())}</p>
+		<p class="mb-10 max-w-2xl text-lg text-white/80">{c('home_hero_body', m.hero_body())}</p>
 		<div class="flex flex-wrap justify-center gap-4">
 			<a href="/join" class="rounded-full bg-yellow-400 px-8 py-3 text-lg font-bold text-crf-blue shadow-lg transition hover:bg-yellow-300">
 				{m.hero_cta_join()}

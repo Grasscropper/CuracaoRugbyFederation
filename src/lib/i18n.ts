@@ -7,9 +7,21 @@ const FALLBACK: Record<Locale, Locale[]> = {
 	pap: ['pap', 'nl', 'en']
 };
 
-type TranslatableRow = Record<string, unknown> & {
+export type TranslatableRow = Record<string, unknown> & {
 	translations?: Record<string, Record<string, string>> | null;
 };
+
+type ContentRow = { key: string; value: string; translations?: Record<string, Record<string, string>> | null };
+
+/**
+ * Look up a page_content row by key and return the best translation.
+ * Falls back to the static fallback string if no DB value exists.
+ */
+export function tc(rows: ContentRow[], key: string, locale: string, fallback = ''): string {
+	const row = rows.find((r) => r.key === key);
+	if (!row) return fallback;
+	return t(row as TranslatableRow & { value: string }, locale, 'value') || fallback;
+}
 
 /**
  * Return the best available translation for a field on a content row.

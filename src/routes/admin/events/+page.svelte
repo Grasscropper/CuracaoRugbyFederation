@@ -3,9 +3,7 @@
 	import { enhance } from '$app/forms';
 	let { data }: { data: PageData } = $props();
 
-	function formatDate(d: string) {
-		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-	}
+	import { formatDateTime } from '$lib/format';
 </script>
 
 <svelte:head><title>Events – CRF Admin</title></svelte:head>
@@ -25,7 +23,7 @@
 			<div class="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm">
 				<div>
 					<p class="font-semibold text-gray-900">{event.title}</p>
-					<p class="text-sm text-gray-500">{formatDate(event.date)}{event.location ? ` · ${event.location}` : ''}</p>
+					<p class="text-sm text-gray-500">{formatDateTime(event.date)}{event.location ? ` · ${event.location}` : ''}</p>
 				</div>
 				<div class="flex gap-2">
 					<a href="/admin/events/{event.id}/edit" class="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium hover:bg-gray-50 transition">
