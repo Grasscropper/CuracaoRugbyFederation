@@ -3,10 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 const CONTENT_KEYS = [
 	'home_hero_title', 'home_hero_subtitle', 'home_hero_body',
-	'about_p1', 'about_p2',
-	'about_sharks_p1', 'about_sharks_p2',
-	'about_mission_1', 'about_mission_2', 'about_mission_3', 'about_mission_4', 'about_mission_5',
-	'about_island_p1', 'about_island_p2'
+	'about_title', 'about_subtitle', 'about_content'
 ];
 
 export const load: PageServerLoad = async ({ locals }) => {

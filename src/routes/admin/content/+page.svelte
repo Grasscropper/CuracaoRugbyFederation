@@ -2,6 +2,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import LangTabs from '$lib/components/LangTabs.svelte';
+	import RichTextEditor from '$lib/components/RichTextEditor.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
@@ -14,54 +15,16 @@
 		return data.content.find((r: { key: string }) => r.key === key)?.translations?.[l]?.value ?? '';
 	}
 
-	const sections = [
-		{
-			title: 'Home – Hero',
-			fields: [
-				{ key: 'home_hero_title', label: 'Title', rows: 1 },
-				{ key: 'home_hero_subtitle', label: 'Subtitle', rows: 1 },
-				{ key: 'home_hero_body', label: 'Body text', rows: 3 }
-			]
-		},
-		{
-			title: 'Our Story – Introduction',
-			fields: [
-				{ key: 'about_p1', label: 'Paragraph 1', rows: 4 },
-				{ key: 'about_p2', label: 'Paragraph 2', rows: 4 }
-			]
-		},
-		{
-			title: 'Our Story – The Sharks',
-			fields: [
-				{ key: 'about_sharks_p1', label: 'Sharks paragraph 1', rows: 4 },
-				{ key: 'about_sharks_p2', label: 'Sharks paragraph 2', rows: 3 }
-			]
-		},
-		{
-			title: 'Our Story – Mission',
-			fields: [
-				{ key: 'about_mission_1', label: 'Mission point 1', rows: 2 },
-				{ key: 'about_mission_2', label: 'Mission point 2', rows: 2 },
-				{ key: 'about_mission_3', label: 'Mission point 3', rows: 2 },
-				{ key: 'about_mission_4', label: 'Mission point 4', rows: 2 },
-				{ key: 'about_mission_5', label: 'Mission point 5', rows: 2 }
-			]
-		},
-		{
-			title: 'Our Story – The Island',
-			fields: [
-				{ key: 'about_island_p1', label: 'Island paragraph 1', rows: 4 },
-				{ key: 'about_island_p2', label: 'Island paragraph 2', rows: 3 }
-			]
-		}
-	];
+	// Rich text values — kept as state so TipTap editors stay in sync across lang switches
+	let heroBody = $state({ en: val('home_hero_body'), nl: tr('home_hero_body', 'nl'), pap: tr('home_hero_body', 'pap') });
+	let aboutContent = $state({ en: val('about_content'), nl: tr('about_content', 'nl'), pap: tr('about_content', 'pap') });
 </script>
 
 <svelte:head><title>Page Content – CRF Admin</title></svelte:head>
 
 <div class="mb-6">
 	<h1 class="text-2xl font-bold text-gray-900">Page Content</h1>
-	<p class="mt-1 text-sm text-gray-500">Edit the text content for public pages. Changes are live immediately.</p>
+	<p class="mt-1 text-sm text-gray-500">Edit the text content for public pages. Changes are live immediately after saving.</p>
 </div>
 
 {#if form?.success}
@@ -73,35 +36,111 @@
 
 <form method="POST" use:enhance={() => { submitting = true; return async ({ update }) => { submitting = false; await update(); }; }} class="space-y-8">
 
-	<div class="sticky top-4 z-10 flex items-center justify-between rounded-xl bg-white px-6 py-3 shadow-sm border border-gray-200">
+	<div class="sticky top-16 z-10 flex items-center justify-between rounded-xl bg-white px-6 py-3 shadow-sm border border-gray-200">
 		<LangTabs bind:value={lang} />
 		<button type="submit" disabled={submitting} class="rounded-full bg-crf-blue px-6 py-2 text-sm font-bold text-white hover:bg-crf-red transition disabled:opacity-50">
 			{submitting ? 'Saving...' : 'Save All'}
 		</button>
 	</div>
 
-	{#each sections as section}
-		<div class="rounded-2xl bg-white p-6 shadow-sm">
-			<h2 class="mb-4 text-lg font-bold text-gray-900">{section.title}</h2>
-			<div class="space-y-4">
-				{#each section.fields as field}
-					<div>
-						<div class:hidden={lang !== 'en'}>
-							<label for={field.key} class="block text-sm font-medium text-gray-700 mb-1">{field.label} (EN)</label>
-							<textarea id={field.key} name={field.key} rows={field.rows} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{val(field.key)}</textarea>
-						</div>
-						<div class:hidden={lang !== 'nl'}>
-							<label for="nl_{field.key}" class="block text-sm font-medium text-gray-700 mb-1">{field.label} (NL)</label>
-							<textarea id="nl_{field.key}" name="nl_{field.key}" rows={field.rows} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{tr(field.key, 'nl')}</textarea>
-						</div>
-						<div class:hidden={lang !== 'pap'}>
-							<label for="pap_{field.key}" class="block text-sm font-medium text-gray-700 mb-1">{field.label} (PAP)</label>
-							<textarea id="pap_{field.key}" name="pap_{field.key}" rows={field.rows} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue">{tr(field.key, 'pap')}</textarea>
-						</div>
-					</div>
-				{/each}
+	<!-- Home Hero -->
+	<div class="rounded-2xl bg-white p-6 shadow-sm space-y-4">
+		<h2 class="text-lg font-bold text-gray-900">Home – Hero</h2>
+
+		<div class:hidden={lang !== 'en'} class="space-y-4">
+			<div>
+				<label for="home_hero_title" class="block text-sm font-medium text-gray-700 mb-1">Title (EN)</label>
+				<input id="home_hero_title" name="home_hero_title" type="text" value={val('home_hero_title')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="home_hero_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtitle (EN)</label>
+				<input id="home_hero_subtitle" name="home_hero_subtitle" type="text" value={val('home_hero_subtitle')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Body text (EN)</label>
+				<RichTextEditor name="home_hero_body" bind:value={heroBody.en} />
 			</div>
 		</div>
-	{/each}
+
+		<div class:hidden={lang !== 'nl'} class="space-y-4">
+			<div>
+				<label for="nl_home_hero_title" class="block text-sm font-medium text-gray-700 mb-1">Titel (NL)</label>
+				<input id="nl_home_hero_title" name="nl_home_hero_title" type="text" value={tr('home_hero_title', 'nl')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="nl_home_hero_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Ondertitel (NL)</label>
+				<input id="nl_home_hero_subtitle" name="nl_home_hero_subtitle" type="text" value={tr('home_hero_subtitle', 'nl')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Bodytekst (NL)</label>
+				<RichTextEditor name="nl_home_hero_body" bind:value={heroBody.nl} />
+			</div>
+		</div>
+
+		<div class:hidden={lang !== 'pap'} class="space-y-4">
+			<div>
+				<label for="pap_home_hero_title" class="block text-sm font-medium text-gray-700 mb-1">Título (PAP)</label>
+				<input id="pap_home_hero_title" name="pap_home_hero_title" type="text" value={tr('home_hero_title', 'pap')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="pap_home_hero_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtítulo (PAP)</label>
+				<input id="pap_home_hero_subtitle" name="pap_home_hero_subtitle" type="text" value={tr('home_hero_subtitle', 'pap')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Teksto di kurpa (PAP)</label>
+				<RichTextEditor name="pap_home_hero_body" bind:value={heroBody.pap} />
+			</div>
+		</div>
+	</div>
+
+	<!-- Our Story -->
+	<div class="rounded-2xl bg-white p-6 shadow-sm space-y-4">
+		<h2 class="text-lg font-bold text-gray-900">Our Story</h2>
+
+		<div class:hidden={lang !== 'en'} class="space-y-4">
+			<div>
+				<label for="about_title" class="block text-sm font-medium text-gray-700 mb-1">Page Title (EN)</label>
+				<input id="about_title" name="about_title" type="text" value={val('about_title')} placeholder="Our Story" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="about_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtitle (EN)</label>
+				<input id="about_subtitle" name="about_subtitle" type="text" value={val('about_subtitle')} placeholder="The Curaçao Sharks and the game we love" class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Content (EN)</label>
+				<RichTextEditor name="about_content" bind:value={aboutContent.en} />
+			</div>
+		</div>
+
+		<div class:hidden={lang !== 'nl'} class="space-y-4">
+			<div>
+				<label for="nl_about_title" class="block text-sm font-medium text-gray-700 mb-1">Paginatitel (NL)</label>
+				<input id="nl_about_title" name="nl_about_title" type="text" value={tr('about_title', 'nl')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="nl_about_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Ondertitel (NL)</label>
+				<input id="nl_about_subtitle" name="nl_about_subtitle" type="text" value={tr('about_subtitle', 'nl')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Inhoud (NL)</label>
+				<RichTextEditor name="nl_about_content" bind:value={aboutContent.nl} />
+			</div>
+		</div>
+
+		<div class:hidden={lang !== 'pap'} class="space-y-4">
+			<div>
+				<label for="pap_about_title" class="block text-sm font-medium text-gray-700 mb-1">Título di Pashina (PAP)</label>
+				<input id="pap_about_title" name="pap_about_title" type="text" value={tr('about_title', 'pap')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label for="pap_about_subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtítulo (PAP)</label>
+				<input id="pap_about_subtitle" name="pap_about_subtitle" type="text" value={tr('about_subtitle', 'pap')} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-1">Kontenido (PAP)</label>
+				<RichTextEditor name="pap_about_content" bind:value={aboutContent.pap} />
+			</div>
+		</div>
+	</div>
 
 </form>
