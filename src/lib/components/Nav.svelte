@@ -2,25 +2,26 @@
 	import { page } from '$app/state';
 	import { locales, localizeHref, getLocale, deLocalizeUrl } from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages';
+	import { tc } from '$lib/i18n';
 
 	let menuOpen = $state(false);
-
-	const navLinks = $derived([
-		{ href: '/', label: m.nav_home() },
-		{ href: '/about', label: m.nav_about() },
-		{ href: '/training', label: m.nav_training() },
-		{ href: '/events', label: m.nav_events() },
-		{ href: '/news', label: m.nav_news() },
-		{ href: '/join', label: m.nav_join() }
-	]);
-
-	const localeLabels: Record<string, string> = { en: 'EN', nl: 'NL', pap: 'PAP' };
 
 	const currentLocale = $derived(
 		locales.find((l) => page.url.pathname === `/${l}` || page.url.pathname.startsWith(`/${l}/`)) ?? 'en'
 	);
-
 	const currentPath = $derived(deLocalizeUrl(page.url).pathname);
+	const nav = $derived(page.data.navContent ?? []);
+
+	const navLinks = $derived([
+		{ href: '/', label: tc(nav, 'nav_home', currentLocale, m.nav_home()) },
+		{ href: '/about', label: tc(nav, 'nav_about', currentLocale, m.nav_about()) },
+		{ href: '/training', label: tc(nav, 'nav_training', currentLocale, m.nav_training()) },
+		{ href: '/events', label: tc(nav, 'nav_events', currentLocale, m.nav_events()) },
+		{ href: '/news', label: tc(nav, 'nav_news', currentLocale, m.nav_news()) },
+		{ href: '/join', label: tc(nav, 'nav_join', currentLocale, m.nav_join()) }
+	]);
+
+	const localeLabels: Record<string, string> = { en: 'EN', nl: 'NL', pap: 'PAP' };
 </script>
 
 <nav class="sticky top-0 z-50 bg-crf-blue text-white shadow-lg">

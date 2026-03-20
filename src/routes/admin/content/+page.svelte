@@ -43,6 +43,32 @@
 		</button>
 	</div>
 
+	<!-- Nav -->
+	<div class="rounded-2xl bg-white p-6 shadow-sm space-y-4">
+		<h2 class="text-lg font-bold text-gray-900">Navigation</h2>
+		{#each [
+			{ key: 'nav_home', en: 'Home', nl: 'Home', pap: 'Kas' },
+			{ key: 'nav_about', en: 'Our Story', nl: 'Ons Verhaal', pap: 'Nos Historia' },
+			{ key: 'nav_training', en: 'Training', nl: 'Training', pap: 'Entrenamentu' },
+			{ key: 'nav_events', en: 'Events', nl: 'Evenementen', pap: 'Eventonan' },
+			{ key: 'nav_news', en: 'News', nl: 'Nieuws', pap: 'Notisia' },
+			{ key: 'nav_join', en: 'Join Us', nl: 'Meedoen', pap: 'Uni Bo' }
+		] as item}
+			<div class:hidden={lang !== 'en'}>
+				<label for={item.key} class="block text-sm font-medium text-gray-700 mb-1">{item.en} (EN)</label>
+				<input id={item.key} name={item.key} type="text" value={val(item.key)} placeholder={item.en} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div class:hidden={lang !== 'nl'}>
+				<label for="nl_{item.key}" class="block text-sm font-medium text-gray-700 mb-1">{item.en} (NL)</label>
+				<input id="nl_{item.key}" name="nl_{item.key}" type="text" value={tr(item.key, 'nl')} placeholder={item.nl} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+			<div class:hidden={lang !== 'pap'}>
+				<label for="pap_{item.key}" class="block text-sm font-medium text-gray-700 mb-1">{item.en} (PAP)</label>
+				<input id="pap_{item.key}" name="pap_{item.key}" type="text" value={tr(item.key, 'pap')} placeholder={item.pap} class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" />
+			</div>
+		{/each}
+	</div>
+
 	<!-- Home Hero -->
 	<div class="rounded-2xl bg-white p-6 shadow-sm space-y-4">
 		<h2 class="text-lg font-bold text-gray-900">Home – Hero</h2>

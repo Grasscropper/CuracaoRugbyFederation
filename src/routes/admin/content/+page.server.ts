@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 const CONTENT_KEYS = [
+	'nav_home', 'nav_about', 'nav_training', 'nav_events', 'nav_news', 'nav_join',
 	'home_hero_title', 'home_hero_subtitle', 'home_hero_body',
 	'about_title', 'about_subtitle', 'about_content'
 ];
