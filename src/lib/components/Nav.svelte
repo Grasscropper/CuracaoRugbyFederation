@@ -82,7 +82,7 @@
 				<button
 					class="rounded-md p-2 hover:bg-white/10"
 					onclick={() => (menuOpen = !menuOpen)}
-					aria-label="Toggle menu"
+					aria-label={m.nav_toggle_menu()}
 				>
 					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						{#if menuOpen}

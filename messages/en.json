@@ -93,5 +93,18 @@
 	"join_required": "First name, last name, and email are required.",
 	"lang_en": "EN",
 	"lang_nl": "NL",
-	"lang_pap": "PAP"
+	"lang_pap": "PAP",
+	"nav_toggle_menu": "Toggle menu",
+	"footer_all_rights": "All rights reserved",
+	"join_email_placeholder": "your@email.com",
+	"training_day_monday": "Monday",
+	"training_day_tuesday": "Tuesday",
+	"training_day_wednesday": "Wednesday",
+	"training_day_thursday": "Thursday",
+	"training_day_friday": "Friday",
+	"training_day_saturday": "Saturday",
+	"training_day_sunday": "Sunday",
+	"about_affiliation_world_rugby_role": "global governing body",
+	"about_affiliation_ran_role": "regional governing body",
+	"about_affiliation_cra_role": "sub-regional body"
 }

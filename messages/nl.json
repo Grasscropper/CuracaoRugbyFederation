@@ -93,5 +93,18 @@
 	"join_required": "Voornaam, achternaam en e-mail zijn verplicht.",
 	"lang_en": "EN",
 	"lang_nl": "NL",
-	"lang_pap": "PAP"
+	"lang_pap": "PAP",
+	"nav_toggle_menu": "Menu openen/sluiten",
+	"footer_all_rights": "Alle rechten voorbehouden",
+	"join_email_placeholder": "jouw@email.nl",
+	"training_day_monday": "Maandag",
+	"training_day_tuesday": "Dinsdag",
+	"training_day_wednesday": "Woensdag",
+	"training_day_thursday": "Donderdag",
+	"training_day_friday": "Vrijdag",
+	"training_day_saturday": "Zaterdag",
+	"training_day_sunday": "Zondag",
+	"about_affiliation_world_rugby_role": "wereldgoverning body",
+	"about_affiliation_ran_role": "regionale governing body",
+	"about_affiliation_cra_role": "sub-regionale organisatie"
 }

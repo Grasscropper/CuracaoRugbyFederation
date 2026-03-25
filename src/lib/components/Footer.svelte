@@ -59,7 +59,7 @@
 		</div>
 
 		<div class="mt-8 border-t border-white/20 pt-8 text-center text-sm text-white/60">
-			<p>&copy; {currentYear} Curaçao Rugby Federation. All rights reserved.</p>
+			<p>&copy; {currentYear} Curaçao Rugby Federation. {m.footer_all_rights()}.</p>
 		</div>
 	</div>
 </footer>

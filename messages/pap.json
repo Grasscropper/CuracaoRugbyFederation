@@ -93,5 +93,18 @@
 	"join_required": "Nòmber, fam i iméil ta obligatorio.",
 	"lang_en": "EN",
 	"lang_nl": "NL",
-	"lang_pap": "PAP"
+	"lang_pap": "PAP",
+	"nav_toggle_menu": "Habri/Sèra menu",
+	"footer_all_rights": "Tur derechonan reservá",
+	"join_email_placeholder": "bo@iméil.com",
+	"training_day_monday": "Dialuna",
+	"training_day_tuesday": "Diaranson",
+	"training_day_wednesday": "Diarason",
+	"training_day_thursday": "Diahuebs",
+	"training_day_friday": "Diabièrna",
+	"training_day_saturday": "Diasabra",
+	"training_day_sunday": "Diadomingu",
+	"about_affiliation_world_rugby_role": "kuerpo gobernante mundial",
+	"about_affiliation_ran_role": "kuerpo gobernante regional",
+	"about_affiliation_cra_role": "kuerpo sub-regional"
 }

@@ -15,6 +15,15 @@
 		{ id: '3', day_of_week: 'Saturday', start_time: '08:00', end_time: '10:00', location: 'Saliña Terrain, Willemstad', category: 'Youth & Minis', notes: 'Ages 6–16, parents welcome to watch', translations: {} }
 	];
 	const dayOrder = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+	const dayLabels: Record<string, () => string> = {
+		Monday: m.training_day_monday,
+		Tuesday: m.training_day_tuesday,
+		Wednesday: m.training_day_wednesday,
+		Thursday: m.training_day_thursday,
+		Friday: m.training_day_friday,
+		Saturday: m.training_day_saturday,
+		Sunday: m.training_day_sunday
+	};
 	const sorted = $derived(
 		[...(data.sessions?.length ? data.sessions : fallbackSessions)]
 			.sort((a, b) => dayOrder.indexOf(a.day_of_week) - dayOrder.indexOf(b.day_of_week))
@@ -34,7 +43,7 @@
 			<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 				<div class="flex flex-wrap items-start justify-between gap-4">
 					<div>
-						<span class="inline-block rounded-full bg-crf-blue px-4 py-1 text-sm font-bold text-white">{session.day_of_week}</span>
+						<span class="inline-block rounded-full bg-crf-blue px-4 py-1 text-sm font-bold text-white">{dayLabels[session.day_of_week]?.() ?? session.day_of_week}</span>
 						<h2 class="mt-3 text-xl font-bold text-gray-900">{t(session, locale, 'category')}</h2>
 						<p class="mt-1 text-gray-600">🕐 {session.start_time} – {session.end_time}</p>
 						<p class="text-gray-600">📍 {session.location}</p>

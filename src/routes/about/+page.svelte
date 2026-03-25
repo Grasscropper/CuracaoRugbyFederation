@@ -31,9 +31,9 @@
 		<p>${m.about_island_p2()}</p>
 		<h2>${m.about_h2_affiliations()}</h2>
 		<ul>
-			<li>🌍 <strong>World Rugby</strong> — global governing body</li>
-			<li>🌎 <strong>Rugby Americas North (RAN)</strong> — regional governing body</li>
-			<li>🏝️ <strong>Caribbean Rugby Association (CRA)</strong> — sub-regional body</li>
+			<li>🌍 <strong>World Rugby</strong> — ${m.about_affiliation_world_rugby_role()}</li>
+			<li>🌎 <strong>Rugby Americas North (RAN)</strong> — ${m.about_affiliation_ran_role()}</li>
+			<li>🏝️ <strong>Caribbean Rugby Association (CRA)</strong> — ${m.about_affiliation_cra_role()}</li>
 		</ul>
 	`);
 

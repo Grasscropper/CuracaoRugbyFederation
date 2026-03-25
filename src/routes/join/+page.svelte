@@ -41,7 +41,7 @@
 				</div>
 				<div>
 					<label for="email" class="mb-1 block text-sm font-medium text-gray-700">{m.join_email()} *</label>
-					<input id="email" name="email" type="email" required class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" placeholder="your@email.com" />
+					<input id="email" name="email" type="email" required class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-crf-blue focus:outline-none focus:ring-1 focus:ring-crf-blue" placeholder={m.join_email_placeholder()} />
 				</div>
 				<div>
 					<label for="phone" class="mb-1 block text-sm font-medium text-gray-700">{m.join_phone()}</label>
